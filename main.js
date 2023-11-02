@@ -129,6 +129,51 @@ const emotions = [
 
 class helperFunction{
     static generateCategoryElements(emotionObjectList){
+        let container = document.createElement("div");
+        container.classList.add("container", "d-flex", "justify-content-center", "flex-wrap");
         
+        let shuffled = helperFunction.shuffleArray(emotionObjectList);
+        for (let i = 0; i < shuffled.length; i++) {
+            let emotionObject = shuffled[i];
+
+            let content = document.createElement("div");
+            content.classList.add("expandLink","col-12","col-md-6", "col-lg-3", "p-4", "m-4", "text-center");
+            content.style.background = `${emotionObject.color}`;
+        
+            content.innerHTML = 
+            `
+                <a href=#${emotionObject.emotion}></a>
+                <h3 class="text-white">${emotionObject.emotion}</h3>
+                <h1>${emotionObject.emoji}</h1>
+                <p class="text-white">${emotionObject.description}</p>
+            `
+            container.append(content);
+        }
+        target.append(container);
+        return target;
+    }
+
+    static generateOnomatopoeiaElements(emotionObjectList) {
+        let container = document.createElement("div");
+        let htmlString = '';
+        for (let i = 0; i < emotionObjectList.length; i++) {
+            htmlString += `${emotionObjectList[i].getHtmlContainerString()}`;
+        }
+        container.innerHTML = htmlString;
+        target.append(container)
+        return target;
+    }
+
+    static shuffleArray(arr) {
+        for (let i = arr.length - 1; i >= 0 ; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        return arr;
     }
 }
+
+helperFunction.generateCategoryElements(emotions);
+helperFunction.generateOnomatopoeiaElements(emotions);
